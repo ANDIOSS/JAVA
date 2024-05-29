@@ -1,0 +1,66 @@
+JRE (Java Runtime Environment, 자바실행환경
+	+JVM(Java Virtual Machine, 자바 가상 머신, 번역기
+          	+라이브러리
+
+	*자바로 작성된 애플리케이션을 실행할 수 있는 환경을 구축
+	- 환경 변수 설정 : 설정창에서 검색 -> 시스템 환경 검색 -> 시스템환경변수 들어가서-> 환경변수 -> JAVA_HOME 입력 -> 디렉토리 찾기 하고 C밑에 program file -> java ->JDK 21 선택 -> 시스템 변수에서 PATH 찾고 새로만들기 %JAVA_HOME%\bin 이름 넣고 맨위로 올리기
+JDK(Java Development Kit, 자바개발도구)
+	+ JRE
+	+ 컴파일러
+	+ 디버거
+	
+	* 자바로 애플리케이션을 개발하고 실행할 수 있는 환경을 구축한다
+	* 기본적으로 Java SE용 JDK를 설치한다.
+
+ java edition
+	- Java ME(Micro Edition) 소형기기, 태블릿, 드론 같은 소형기기에 사용되는 자바 버전
+	- Java SE(Standard Edition) 데스크탑이나 노트북에서 사용되는 애플리케이션을 개발할때 사용되는 자바 버전
+	- Java EE(Enterprise Edition) 서버용 컴퓨터에서 사용되는 애플리케이션 개발할때 사용되는 자바 버전
+
+스크립트 언어와 컴파일 언어
+
+스크립트 언어
+	javascript, python
+
+	소스코드를 바로 실행할 수 있다.
+
+컴파일 언어
+	c, c++, java
+	
+	소스코드를 실행코드로 변환한 다음에 실행할 수 있다
+
+system.out 표준 출력장치, system.out in 표준 입력장치
+
+소스코드(소스파일) Hello.java -> 컴파일 하기 (Hello.class) -> 바이트코드(실행파일) Hello.class -> 실행하기 (java.exe)
+
+컴파일하기
+- 형식
+     javac.exe 소스파일명.확장자
+- Hello.java 소스파일의 코드를 JVM이 이해하는 바이트 코드로 변환한다
+- 컴파일이 완료되면 Hello.class 실행파일이 생성된다
+- 실행파일의 확장자는 언제나 .class다.
+
+실행하기 
+- 형식
+	java.exe 실행파일명 
+- JVM을 실행시킨다
+- JVM은 실행파일명에 해당하는 Hello.class 파일을 로드한다
+- JVM은 Hello.class를 운영체제가 이해할 수 있는 기계어코드로 변환해서 운영체제에 전달해 실행한다
+
+예약어 = 자바에서 특정 목적으로 사용이 예약어라고 되어있는 것 (자바에서 자주빛으로 되어있는 것)
+class = 설계도
+public class Hello = 공개된 설계도 Hello
+
+***단축키 : main 치고 ctrl + space 누르면 psvm이랑 똑같음 ***
+
+eclipse(IDE, Integrated Development Environment)
+- 자바통합개발환경 툴이다.
+- IDE가 지원하는 기능
+	+ 구문 강조 표시
+	+ 지능형 코드 완성
+	+ 코드 편집 자동화
+	+ 컴파일
+	+ 테스트
+	+ 디버깅
+	+ 리팩토링
+	+ 빌드 
