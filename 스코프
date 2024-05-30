@@ -1,0 +1,21 @@
+스코프란 변수의 생존 범위이다
+ex )
+package loop;
+
+public class For2 {
+
+    public static void main(String[] args) {
+        int sum = 0;
+        int endNum = 3;
+
+        for (int i = 1; i <= endNum; i++){
+            sum = sum + i;
+            System.out.println("i=" + i + "sum=" + sum);
+        }
+    }
+}
+위와 같은 코드가 있을때 i 의 생존 범위는 for문 시작과 끝이다 우리는 이런 것을 지역변수라고 한다.
+생존 범위를 잘 잡는게 중요하다 
+스코프가 중요한 것이 개발을 할때 변수의 생존구간을 특정부분으로 지정해놓아야 메모리를 조금 더 효율적으로 쓸 수 있고 코드 복잡성이 줄어들기 때문이다.
+
+좋은 개발 프로그램은 자유로운 프로그램이 아닌 제약이 확실한 것이 좋은 프로그램이다
