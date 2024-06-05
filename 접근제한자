@@ -1,0 +1,21 @@
+접근제한자
+- 클래스 내에서 멤버의 접근을 제한한다.
+public = 전체공개, 접근을 제한하지 않음
+private = 전체 접근 차단,
+
+접근 제한 대상
+         클래스    : public, default
+         필드      : public, protected, default, private
+         생성자    :  public, protected, default, private
+         메소드    : public, protected, default, private
+클래스는 공개해서 재사용하는게 목적이기 때문에 public 이다
+필드는 private으로 정의한다
+생성자, 메소드는 특별한 경우가 아닌이상 public으로 설정한다
+기능(메소드)은 공개, 속성(필드)은 감춘다.
+공개된 기능을 통해서 감춰져있는 속성에 간접적으로 접근한다.
+
+메소드 중복 정의
+하나의 클래스안에 같은 이름의 메소드를 여러개를 정의할 수 있게해놓은 기능
+매개변수의 갯수가 다르거나, 매개변수의 타입이 달라야한다는 조건이 있음
+
+비슷한 작업은 일관된 이름으로 EX) println();
