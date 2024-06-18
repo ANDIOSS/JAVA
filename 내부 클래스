@@ -1,0 +1,255 @@
+# 내부클래스
+
+멤버 내부 클래스, 정적 내부 클래스, 로컬 내부 클래스
+
+로컬 내부 클래스는 클래스안에 메소드를 설정하고 그 안에 클래스를 만든다.
+
+### 멤버 내부 클래스
+
+```java
+class Outer {
+private int x;
+private static int y;
+
+	public void test1() {
+	
+	}
+	
+	private void test2() {
+	
+	}
+	
+	public static void test3() {
+	
+	}
+}
+```
+
+멤버 내부클래스의 메소드에서는 외부클래스의 모든 변수, 모든 메소드를 사용할 수 있다.
+
+### 멤버 내부 클래스의 사용 목적
+
+- 내부클래스 특정 기능을 위임해서 모듈화 할 수 있다. ( 유지보수가 쉬워진다. )
+- 멤버 내부클래스는 외부 클래스의 모든 변수, 모든 메소드를 바로 사용할 수 있다.
+
+### 멤버 내부 클래스의 특징
+
+- 외부 클래스로 객체 생성한 이후에 멤버 내부클래스는 사용가능하다.
+- 멤버 내부클래스는 외부 클래스의 모든 변수, 모든 메소드를 사용할 수 있다.
+- 멤버 내부클래스에는 정적 변수, 정적 메소드를 정의할 수 없다. 단, 상수는 가능하다.
+
+```java
+public class Sample {
+	// 멤버변수, 인스턴스 변수
+	// 객체 생성 후 사용가능하다.
+	int x;
+	
+	// 정적변수, 클래스변수
+	// 객체 생성과 상관없이 사용가능하다.
+	static int y;
+	
+	public void test() {
+	// 지역변수, 로컬변수
+	// 메소드가 실행되는 동안만 사용가능하다.
+	int z = 10;
+	}
+}
+```
+
+```java
+public class Outer {
+	class Inner1 { // 멤버 내부 클래스, 외부객체 생성 후 사용가능하다.
+	
+	}
+	
+	static class Inner2 { // 정적 내부 클래스, 외부객체 생성 여부와 상관없이 사용가능하다.
+	
+	}
+	
+	public void test() {
+			class Inner3 { //지역 내부 클래스 메소드가 실행되는 동안만 사용가능하다.
+			
+			}
+	}
+}
+```
+
+멤버내부 클래스와 정적내부 클래스
+
+```java
+public class Outer {
+		//멤버 내부 클래스
+		class Inner {
+
+		}
+		//정적 내부 클래스
+		static class Inner2 {
+
+		}
+}
+//정적 내부 클래스는 외부 클래스와 상관없이 사용 가능하다.
+//정적 내부 클래스의 객체 생성 ---> new 외부클래스명.정적내부클래스명();
+Outer.Inner2 inner = new Outer.Inner2();
+
+//멤버 내부 클래스는 외부클래스로 객체를 생성한 다음에만 사용 가능하다.
+Outer outer1 = new Outer();
+//멤버 내부 클래스로 객체 생성할 때 외부 객체를 참조하는 참조변수가 사용된다.(여기서는 outer
+//멤버 내부 클래스의 객체 생성 ---> 외부객체참조변수.new 멤버내부클래스명();
+Outer.Inner1 inner = outer1.new Inner1();
+```
+
+정적 내부 클래스나 멤버 내부클래스 모두 객체를 생성할 때마다 항상 새로운 객체가 생성된다.
+
+정적 내부 클래스라 하더라도 메모리에 객체가 오직 하나만 생성되는 것은 아니다.
+
+즉, 정적 내부 클래스와 멤버 내부 클래스는 객체를 이용하는 방법에만 차이가 있을 뿐 매번 새로운 객체가 생성된다는 점은 동일하다.
+
+### 지역 내부 클래스
+
+- 외부클래스의 모든 변수, 모든 메소드를 사용할 수 있다.
+- 외부 메소드의 모든 지역변수를 사용할 수 있다. (단, 값이 변하는 지역변수를 사용할 수 없다.)
+- 지역 클래스가 정의된 메소드내에서 객체 생성하고 사용한다.
+
+### 익명 클래스 (내부클래스 중에 제일 많이쓰임)
+
+- 내부 클래스의 한 종류이다.
+- 이름이 없는 클래스다.
+- 클래스 정의와 동시에 객체를 생성한다.
+- 익명 클래스를 정의하기 위해서는 반드시 부모(클래스, 추상클래스, 인터페이스)가 필요하다.
+- 익명 클래스는 오직 한 곳에서만 사용되는 기능이 구현된 객체를 생성할 때 이용한다.                (주로 GUI 프로그램에서 각각의 메뉴를 클릭했을 때 마다 실행되는 기능이 구현된 객체를          익명클래스로 정의한다.)
+
+**이름 있는 클래스 정의하기**
+
+```java
+public class Sample {  //특정 클래스를 상속받지 않는 이름있는 클래스 정의하기
+	public void test() {
+		...
+	}                   
+}
+----------------------------------------------------------------------------------
+public class Parent {
+	public void test2() {
+		...
+	}	
+}
+public class Child extends Parent {
+	public void test2() {
+		재정의
+	}
+	public void test3(){  //특정 클래스를 상속받는 이름있는 자식 클래스 정의하기
+	 ....
+	}	
+}
+
+public interface Reader {
+	int read();
+	int[] read(byte[] buf);
+}
+
+public class FileReader implements Reader {
+	public  int read() {
+	재정의
+	}
+	public int[] read(byte[] buf) {
+	재정의
+	}
+}                       //특정 인터페이스를 구현한 이름있는 구현 클래스
+```
+
+- 이름 있는 클래스는 재사용이 가능한 설계도다.
+
+```java
+Sample s1 = new Sample();
+Sample s2 = new Sample();
+
+Child c1 = new Child();
+Child c2 = new Child();
+```
+
+- 이름있는 클래스는 설게도를 이용해서 객체를 여러 번 생성할 수 있다.
+
+**이름 없는 클래스 정의하기**
+
+```java
+public abstract class Parent {
+	public abstract void test();
+}
+
+Parent p1 = new Parent() {
+	public void test() {
+	 수행문;
+	}
+}
+
+-------------------------------------------------------------------------------------
+class Child extends Parent {  //Parent를구현한 이름있는 클래스
+	public void test() {
+	수행문;
+	}                           //Parent 클래스의 test 메소드를 구현한 클래스
+}
+
+new Parent() {
+	public void test() {
+	수행문;
+	}
+}
+
+-------------------------------------------------------------------------------------
+Parent를 구현한 이름없는 클래스를 즉석에서 정의하고 객체 생성하기
+Parent p = new Parent();
+	public void test() {
+		수행문;                   //Parent 클래스의 test 메소드를 구현한 코드
+	}
+}
+
+- Parent 클래스가 추상클래스기 때문에 new Parent()를 실행해서 객체 생성할 수  없다.
+- 하지만, {} 블록안에서 test() 메소드를 즉석에서 구현했기 때문에 객체생성이 가능하다.
+	new Parent() {
+		public void test() { ... }
+```
+
+람다식
+
+```java
+// 기존 코딩 방법
+public interface Sample {
+		void test(int x, int y);
+}
+
+Sample s1 = new Sample() {
+		public void test(int x, int y) {
+				int z = x + y;
+				System.out.println(z)'
+		}
+}
+
+Sample s2 = new Sample() {
+		public void test(int x, int y) {
+				int z = x - y;
+				System.out.println(z)'
+		}
+}
+
+Sample s3 = new Sample() {
+		public void test(int a, int b) {
+				int c = a * b;
+				System.out.println(c)'
+		}
+}
+```
+
+```java
+//람다식 적용
+public interface Sample {
+		void test(int x, int y);
+}
+
+Sample s1 = (x,y) -> {
+		int z= x + y;
+		s.o.p(z);
+}
+
+Sample s2 = (x,y) -> s.o.p(x-y);
+
+Sample s2 = (a,b) -> s.o.p(a*b);
+```
