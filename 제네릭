@@ -1,1 +1,304 @@
+# 제네릭(Generic)
 
+클래스 내부에서 사용할 데이터 타입을 직접 지정하지 않고, 외부에서  지정하는 것
+
+```java
+// 예시
+* 제네릭 클래스
+public class ArrayList<E> {
+			public boolean add(E e) {
+					...
+			}
+			
+			public E get(int index) {
+					...
+			}
+}
+
+* 제네릭 인터페이스
+public interface Comparable<T> {
+		void compare(T other)
+}
+```
+
+제네릭의 표시
+제네릭은 <타입파라미터> 다이아몬드 표기법으로 타입파라미터(별칭)를 지정한다.
+타입파라미터의 실제 타입은 외부에서 지정한다.
++ 타입파라미터는 참조타입만 지정할 수 있다.
++ 타입파라미터로 기본자료형타입의 지정할 수 없다. 대신 Wrapper타입으로 지정할 수 있다.
+
+제네릭 활용
+
+ArrayList<String> list1 = new ArrayList<String>();
+
+public class AraayList<String< {
+
+public boolean add(String e) {
+
+…
+
+} 
+
+public String get(int index) {
+
+…
+
+}
+
+}
+
+ArrayList<String> list = new ArrayList<String>();
+
+ArrayList<String> list = new ArrayList<>();  ←—— 오른쪽 <>사이의 타입파라미터만 지울 수 있다.
+
+- String 객체만 담을 수 있는 ArrayList객체가 생성되었다.
+- 타입안전성이 확보되었다.                                                                                                                  (list1이 참조하는 ArrayList객체의 몇번째에서 값을 꺼내든 언제나 String객체만 획득된다.)
+
+제네릭의 장점
+
+- 타입 안전성이 확보된다.
+- 제네릭이 적용된 클래스로 생성된 객체는 컴파일 싯점에 타입 검사를 수행할 수 있다.                               ArrayList<Apple> list = new ArrayList<Apple>();
+    
+    list.add(new Apple());
+    
+    list.add(new Apple());
+    
+    list.add(new Book());  //이클립스에서 해당 코드가 오류표시가 나타난다.
+    
+- 저장싯점에 자동클래스형변환이 일어나지 않는다.
+- 불필요한 클래스형변환이 일어나지 않는다
+
+### 제네릭 타입을 제한하기
+
+```java
+public class FruitBox<T> {
+
+}
+FruitBox<Apple> fruitBox1 = new FruitBox<>();
+FruitBox<Orange> fruitBox2 = new FruitBox<>();
+FruitBox<Book> fruitBox3 = new FruitBox<>(); //과일종류가 아닌 객체를 담는 fruitBox객체를        
+																						 //생성할 수 있다.
++ 파라미터 타입에 제한이 있는 제네릭 클래스
+public class FruitBox<T extends Fruit> {
+
+}
+* T의 타입은 Fruit 및 Fruit의 자식 타입만 가능하다.
+
+FruitBox<Apple> fruitBox1 = new FruitBox<>();
+FruitBox<Orange> fruitBox2 = new FruitBox<>();
+FruitBox<Book> fruitBox3 = new FruitBox<>(); // 컴파일오류 이클립스에서 오류로 표시된다.
+```
+
+```java
+// 제네릭을 사용하지 않은 경우
+public class Box {
+	Object[] data = new Object[];
+	
+	public void add(Object obj) {
+		...
+	}
+	public Object get(int index) {
+		...
+	}
+}
+
+// 제네릭을 사용한 경우
+// 과일 객체를 저장하는 Box객체 생성하기
+Box fruitBox = new Box();
+
+fruitBox.add(new Apple());
+fruitBox.add(new Orange());
+//과일객체 외의 다른 객체가 저장되는 것을 컴파일 싯점에 체크할 수 없다.
+fruitBox.add(new Book());  
+
+//과일객체를 저장하는 Box 생성하기
+Box fruitBox = new Box();
+fruitBox.add(new Apple());  // Object타입으로 형변환된다.
+fruitBox.add(new Apple());
+
+Object obj1 = fruitBox.get(0);    
+Object obj2 = fruitBox.get(1);  
+						|
+						▼ 
+//클래스 형변환을 계속해야 한다.
+Apple apple1 = (Apple)fruitBox.get(0);
+Apple apple2 = (Apple)fruitBox.get(1);
+```
+
+```java
+//제네릭을 사용하는 경우(아래 코드는 이해를 돕기위해 문법적 오류가 있는 코드입니다.)
+public class Box<T> {
+ T[] data = new T[10];
+ int position = 0;v   
+ public void add(T item) {
+ 
+ }
+ 
+ // Box객체는 Apple객체만 저장가능한 객체로 생성되었다.
+ Box<Apple> box1 = new Box<Apple>();
+ 
+ box1.add(new Apple());
+ box1.add(new Apple());
+ box1.add(new Book()); //컴파일 오류 발생, Apple객체외의 다른 객체를 절대로 저장할 수 없다.
+											 //타입 안전성이 확보된다
+Apple item1 = box1.get(0); // 강제 클래스 형변환이 필요없다.
+Apple item2 = box1.get(1); 
+```
+
+제네릭 클래스에서는 구체적인 타입을 지정하는 대신 타입파라미터로 타입이 필요한 곳에                표시만 한다. 
+
+제네릭 클래스를 사용할 때 외부에서 타입파라미터 자리에 실제로 사용할 클래스의 타입을              지정한다.
+
+```java
+public class OrderService<T extends Pay {
+		T pay;
+		public void setPay(T t) {
+				this.pay = t;
+		}
+}
+
+interface Pay {
+		void 결재기능();
+		void 할부기능();
+		void 취소기능();
+}
+
+class SamsungPay implements Pay {
+...
+}
+
+class KakaoPay implements Pay{
+....
+}
+```
+
+제네릭 인터페이스 활용
+
+// 제네릭 인터페이스
+
+public interface List<E> {
+
+void add(E e);              //추상메소드
+
+E get(int index);           //추상메소드
+
+}
+
+// 제네릭 구현클래스
+
+public class ArrayList<E> implements List<E> {
+
+public void add(E e) {
+
+…
+
+}
+
+public E get(int index) {
+
+…
+
+}
+
+}
+
+*제네릭 인터페이스를 구현한 구현 클래스도 제네릭 클래스로 구현할 수 있다. 
+
+구현클래스에서 재정의할 때 제네릭 타입에 맞춰서 구현한다.
+
+*제네릭 클래스를 사용할 때 타입을 지정한다.
+
+ArrayList<Book> list = new ArrayList<Book>();
+
+### 제네릭 인터페이스를 일반 클래스로 구현하기
+
+```java
+//제네릭 인터페이스
+public interface Comparable<T> {
+	int compare(T other);
+}
+//일반 구현 클래스
+public class Book implements Comparable<Book> {
+		// 제네릭 인터페이스의 제네릭타입을 Book으로 지정했기 때문에
+		// 재정의하는 메소드에서도 T가 Book으로 지정된다.
+		public int compare(Book other) {
+				...
+		}
+}
+```
+
+*제네릭 인터페이스를 구현한 구현 클래스가 일반 클래스일 때는 구현클래스를 구현하는 싯점에 타입을 지정한다.
+
+*Book은 일반 클래스이기 때문에 Book을 사용할 대 타입을 지정할 필요가 없다.
+
+Book book = new Book();
+
+### 제네릭 메소드
+
+- 메소드 선언부의 반환타입 앞에 <타입파라미터> 다이아몬드 표기법으로 제네릭이 정의된 메소드
+
+```java
+public class Box<T> {
+	public void add(T t) {              //제네릭 메소드가 아니다
+		...
+	}
+	public E get(int index) {           //제네릭 메소드가 아니다.
+		...
+	}
+	//제네릭 메소드다.
+	// <T>는 Box<T>의 T와 상관없이 직접 메소드에 <T>제네릭을 독립적으로 설정한 메소드다.
+// 메소드 실행시 동적으로 타입을 받아서 사용할수있는 제네릭을 독자적으로 운영가능한 메소드다
+	public <T> void toArray(T[] arr) {           ...
+		...
+	}
+} 
+```
+
+```java
+public class Box<T> {
+	public void add(T t) {              //제네릭 메소드가 아니다
+		...
+	}
+	public T get(int index) {           //제네릭 메소드가 아니다.
+		...
+	}
+	//제네릭 메소드다.
+	// 제네릭을 독자적으로 운용하는 메소드
+	// 이 메소드의 반환타입과 매개변수 타입은 이 메소드를 호출할 때 지정한 타입으로 
+	// 그 제네릭 타입이 결정된다.
+	public <T> void toArray(T[] arr) {           ...
+		...
+	}
+} 
+```
+
+```java
+Box<String> box = new Box<String>();
+
+String[] arr = new String[10];
+box.<String>toArray(arr);
+|
+|
+* 실제 실행되는 메소드
+public <String> String[] toArray(String[] arr) {
+...
+}
+
+String[] arr = new String[10];
+box.toArray(arr);
+제네릭타입을 지정해야 한다.
+생략가능하다
+arr로부터 타입을 유추할 수 있다.
+```
+
+### 타입파라미터의 일반적인 의미
+
+<T> 타입(Type)              클래스 혹은 인터페이스의 타입
+
+<E> 요소(Element)         자료구조객체에 요소로써 저장되는 클래스 혹은 인터페이스 타입
+
+<K> 키(Key)                   Map객체에서 값을 대표하는 키로 저장되는 클래스 혹은 인터페이스의 타입
+
+<V> 값(Value)                Map객체에서 값으로 저장되는 클래스 혹은 인터페이스의 타입
+
+<R> 리턴타입(Return)
