@@ -1,0 +1,153 @@
+상속은 객체 지향 프로그래밍의 핵심 요소 중 하나로, 기존 클래스의 필드와 메서드를 새로운 클래스에서 재사용하게 해준다 이름과 같이 기존 클래스의 속성과 기능을 그대로 물려받는 것이다.
+상속을 하기 위해서는 extedns 키워드를 사용하고 상속 대상은 한개만 상속 받을 수 있다.
+
+부모 클래스(슈퍼 클래스) : 상속을 통해 자신의 필드와 메서드를 다른 클래스에 제공하는 클래스
+자식 클래스(서브 클래스) : 부모 클래스로부터 필드와 메서드를 상속받는 클래스
+
+상속 사용 예시)
+class Car {
+  public void move() {
+      System.out.println("차를 움직입니다");
+  }
+
+이렇게 부모 클래스로 Car를 만들면 Car에서 만든 메소드인 move()를 자식클래스가 물려받아 사용할 수 있다.
+부모 클래스를 사용방법 예시)
+class ElectricCar extends Car {
+  public void charge() {
+    System.out.println("차를 충전합니다");
+  }
+Car를 상속받은 ElectricCar 클래스가 있다 이 클래스에서는 보이지 않는 move를 사용할 수 있게 만드는 것이 상속이다.
+다른 메인메소드 클래스를 만들어 실행 시켜보자
+class CarMain {
+  public static void main(String[] args) {
+    ElectricCar electric = new ElectricCar(); // ElectricCar 생성자를 호출했다.
+    electric.move();
+    electric.charge();
+}
+실행 결과
+차를 움직입니다.
+차를 충전합니다.
+
+이렇게 move를 직접 만들지 않았는데도 호출 할 수 있다 정말 신기하지 않은가?
+이렇게 되는 이유는 상속을 받으면 자식클래스의 생성자를 만들면 자식클래스 뿐 아니라 부모 클래스의 정보가 모두 생성된다.
+이때 CarMain 클래스에서 electric.move()를 호출했을 때 자식 클래스에 move가없다면 상속 받은 부모클래스에 올라가서 그 메소드가 있는지 확인 후 있다면 호출하는 구조이다.
+이때 찾지못한다면 컴파일 오류가 나게된다.
+
+하지만 우리가 부모클래스에 있는 메소드 그대로 사용하고 싶은게 아니라 더 추가하고 싶을 수 있지 않은가? 이때 사용하는게 메소드 오버라이딩이다.
+상속받은 자식 클래스에서 부모 클래스에 있는 메소드를 재정의 한다는 것이다. 재정의 하는 방법을 알아보자.
+class ElectricCar extends Car {
+  @Override
+  public void move() {
+    System.out.println("전기차를 움직입니다");
+    }
+  public void charge() {
+    System.out.println("차를 충전합니다");
+  }
+  이렇게 자식 클래스에서 똑같은 메소드명 매개변수를 가진 메소드를 재정의하면 다르게 쓸 수 있다 여기서 @Override는 어노테이션이고 무조건 써야하는 것은 아니지만
+이것을 적어놓으면 우리가 사용하는 IDE에서 문법적 오류가 발생했을 때 컴파일 오류를 발생시키거나 주의 표시를 주어 우리가 실수하는 것을 막아준다.
+
+오버라이딩 조건
+메서드 이름: 메서드 이름이 같아야 한다.
+메서드 매개변수(파라미터): 매개변수(파라미터) 타입, 순서, 개수가 같아야 한다.
+반환 타입: 반환 타입이 같아야 한다. 단 반환 타입이 하위 클래스 타입일 수 있다.
+접근 제어자: 오버라이딩 메서드의 접근 제어자는 상위 클래스의 메서드보다 더 제한적이어서는 안된다. 예를 들
+어, 상위 클래스의 메서드가 protected 로 선언되어 있으면 하위 클래스에서 이를 public 또는
+protected 로 오버라이드할 수 있지만, private 또는 default 로 오버라이드 할 수 없다.
+예외: 오버라이딩 메서드는 상위 클래스의 메서드보다 더 많은 체크 예외를 throws 로 선언할 수 없다. 하지만
+더 적거나 같은 수의 예외, 또는 하위 타입의 예외는 선언할 수 있다. 예외를 학습해야 이해할 수 있다. 예외는 뒤
+에서 다룬다.
+static , final , private : 키워드가 붙은 메서드는 오버라이딩 될 수 없다.
+static 은 클래스 레벨에서 작동하므로 인스턴스 레벨에서 사용하는 오버라이딩이 의미가 없다. 쉽게 이
+야기해서 그냥 클래스 이름을 통해 필요한 곳에 직접 접근하면 된다.
+final 메서드는 재정의를 금지한다.
+private 메서드는 해당 클래스에서만 접근 가능하기 때문에 하위 클래스에서 보이지 않는다. 따라서 오
+버라이딩 할 수 없다.
+생성자 오버라이딩: 생성자는 오버라이딩 할 수 없다.
+
+상속과 접근제어
+
+접근제어자의 종류
+private : 모든 외부 호출을 막는다.
+default (package-private): 같은 패키지안에서 호출은 허용한다.
+protected : 같은 패키지안에서 호출은 허용한다. 패키지가 달라도 상속 관계의 호출은 허용한다.
+public : 모든 외부 호출을 허용한다
+
+접근 제어자의 종류는 위에 4가지가 있다.
+public이 제일 허용많이되고 private이 제일 차단을 많이한다.
+
+접근제어자에 대해 코드로 알아보자 (부모 클래스와 자식 클래스는 패키지가 다르다.)
+public class Parent {   // 부모 클래스 만들기
+  public int publicValue;
+  protected int protectedValue;
+  defualt int defaultValue;
+  private int privateValue;
+   public void publicMethod() {
+   System.out.println("Parent.publicMethod");
+   }
+   protected void protectedMethod() {
+   System.out.println("Parent.protectedMethod");
+   }
+   void defaultMethod() {
+   System.out.println("Parent.defaultMethod");
+   }
+   private void privateMethod() {
+   System.out.println("Parent.privateMethod");
+   }
+  public void printParent() {
+   System.out.println("==Parent 메서드 안==");
+   System.out.println("publicValue = " + publicValue);
+   System.out.println("protectedValue = " + protectedValue);
+   System.out.println("defaultValue = " + defaultValue); //부모 메서드 안에서 접근 가능
+   System.out.println("privateValue = " + privateValue); //부모 메서드 안에서 접근 가능
+   //부모 메서드 안에서 모두 접근 가능
+   defaultMethod();
+   privateMethod();
+ }
+
+// Child 클래스는 다른 패키지에 만들었다.
+public class Child extends Parent {  // parent 클래스를 상속 받은 자식 클래스
+  public void call() { // 접근제어자 확인 메소드
+    publicValue = 1;
+    protectedValue = 1;
+    //defaultValue = 1;   컴파일 오류, 다른 패키지 접근 불가
+    //privateValue = 1;   컴파일 오류, 접근 불가
+
+  publicMethod();
+  protectedMethod();
+  defaultMethod();  // 컴파일 오류, 다른 패키지 접근 불가
+  privateMethod();  // 컴파일 오류, 접근불가
+
+public은 모든 접근 제한이 없기에 접근할 수 있고 protected는 패키지가 달라도 상속관계이기 때문에 접근할 수 있다 하지만 default는 패키지가 다르면 상속 관계라도 접근이 불가능하고
+private은 자신 클래스가 아니면 접근할 수 없다.
+
+상속받고 메소드나 생성자를 호출했을 때 사용하려는 기능이 자식 클래스에 없으면 부모 클래스를 찾아가는데 이때 super() 메소드를 사용한다 . 
+super 메소드는 부모를 참조하는 것이다. 우리는 여태 super 기능을 안 사용해도 잘 써왔었는데 어떻게 된 것일까?
+상속 관계의 인스턴스를 생성하면 결국 메모리 내부에는 자식과 부모 클래스가 각각 다 만들어진다. Child 를 만들면 부모인 Parent 까지 함께 만들어지는 것이다. 따라서 각각의 생성자도 
+모두 호출되어야 한다는 것이다.
+
+public class ClassA {
+ public ClassA() {
+ System.out.println("ClassA 생성자");
+ }
+}
+ClassA는 최상위 부모클래스다.
+
+public class ClassB extends ClassA {
+ public ClassB(int a) {
+ super(); //기본 생성자 생략 가능
+ System.out.println("ClassB 생성자 a="+a);
+ }
+ public ClassB(int a, int b) {
+ super(); //기본 생성자 생략 가능
+ System.out.println("ClassB 생성자 a="+a + " b=" + b);
+ }
+}
+ClassB 는 ClassA 를 상속 받았다. 상속을 받으면 생성자의 첫줄에 super(...) 를 사용해서 부모 클래스의 생성자를 호출해야 한다.
+예외로 생성자 첫줄에 this(...) 를 사용할 수는 있다. 하지만 super(...) 는 자식의 생성자 안에서 언젠가는 반드시 호출해야 한다.
+부모 클래스의 생성자가 기본 생성자(파라미터가 없는 생성자)인 경우에는 super() 를 생략할 수 있다.
+상속 관계에서 첫줄에 super(...) 를 생략하면 자바는 부모의 기본 생성자를 호출하는 super() 를 자동으로 만들어준다.
+참고로 기본 생성자를 많이 사용하기 때문에 편의상 이런 기능을 제공한다.
+
+  
+  
+  
